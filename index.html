@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+  </head>
+  <body>
+    <script>
+      AFRAME.registerComponent('log', {
+        schema: {type: 'string'},
+        init: function() {
+          var stringToLog = this.data;
+          console.log(stringToLog);
+        }
+      });
+    </script>
+
+    <a-scene>
+      <a-entity position="0 1 5">
+        <a-camera>
+          <a-cursor></a-cursor>
+        </a-camera>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      var h = 4; // rename this
+
+      // TODO: DRY below
+      for (var xIndex = 0; xIndex < h; xIndex += 1) {
+        for (var yIndex = 0; yIndex < h; yIndex += 1) {
+          var sceneEl = document.querySelector("a-scene");
+          var entityEl = document.createElement("a-entity");
+
+          // add attributes of entity
+          entityEl.setAttribute("geometry", {
+            primitive: "box",
+            height: 2,
+            width: 2,
+            depth: 2
+          });
+          entityEl.setAttribute("position", {
+            x: xIndex * 5, y: yIndex * 5, z: -12
+          });
+          entityEl.setAttribute("rotation", {
+            x: 45, y: 45, z: 0
+          });
+          entityEl.setAttribute("material", {
+            color: "orange"
+          });
+
+          // add animation (unfortunately necessarily verbose)
+          var animationEl = document.createElement("a-animation");
+          let xIndexStr = (xIndex * 5).toString();
+          let yIndexStr = (yIndex * 5 + 5).toString();
+          animationEl.setAttribute("to", `${xIndexStr} ${yIndexStr} -12`);
+          animationEl.setAttribute("attribute", "position");
+          animationEl.setAttribute("direction", "alternate");
+          animationEl.setAttribute("repeat", "indefinite");
+          entityEl.appendChild(animationEl);
+
+          // add to scene
+          sceneEl.appendChild(entityEl);
+      }
+    }
+    </script>
+  </body>
+</html>
