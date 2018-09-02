@@ -2,6 +2,7 @@
   <head>
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
     <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+    <script src="js/three.js"></script>
   </head>
   <body>
     <script>
@@ -44,8 +45,9 @@
           entityEl.setAttribute("rotation", {
             x: 45, y: 45, z: 0
           });
+          let entityColor = new THREE.Color("rgb(255, 0, 144)");
           entityEl.setAttribute("material", {
-            color: "orange"
+            color: entityColor
           });
 
           // add animation (unfortunately necessarily verbose)
