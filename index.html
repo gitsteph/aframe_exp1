@@ -15,7 +15,7 @@
       });
     </script>
 
-    <a-scene background="color:lightgrey">
+    <a-scene background="color:lightblue">
       <a-entity position="0 1 5">
         <a-camera>
           <a-cursor></a-cursor>
@@ -24,15 +24,22 @@
     </a-scene>
 
     <script>
-      var h = 4; // rename this
+      var gridHeight = 4;
+      var gridWidth = 5;
+      function randomIntFromInterval(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+      }
 
+      // TODO: center view
+      // TODO: add cursor interaction (translation, sound, etc)
       // TODO: DRY below
-      for (var xIndex = 0; xIndex < h; xIndex += 1) {
-        for (var yIndex = 0; yIndex < h; yIndex += 1) {
-          var sceneEl = document.querySelector("a-scene");
-          var entityEl = document.createElement("a-entity");
 
-          // add attributes of entity
+      for (let xIndex = 0; xIndex < gridWidth; xIndex += 1) {
+        for (let yIndex = 0; yIndex < gridHeight; yIndex += 1) {
+          let sceneEl = document.querySelector("a-scene");
+          let entityEl = document.createElement("a-entity");
+
+          // set geometry and transforms
           entityEl.setAttribute("geometry", {
             primitive: "box",
             height: 2,
@@ -45,13 +52,23 @@
           entityEl.setAttribute("rotation", {
             x: 45, y: 45, z: 0
           });
-          let entityColor = new THREE.Color("rgb(255, 0, 144)");
+
+          // set color
+          let entityRGB = {
+            "r": randomIntFromInterval(0, 255),
+            "g": randomIntFromInterval(0, 255),
+            "b": randomIntFromInterval(0, 255)
+          };
+          let entityColor = new THREE.Color(
+            `rgb(${entityRGB.r}, ${entityRGB.g}, ${entityRGB.b})`
+          );
           entityEl.setAttribute("material", {
-            color: entityColor
+            color: entityColor,
+            opacity: 0.7
           });
 
           // add animation (unfortunately necessarily verbose)
-          var animationEl = document.createElement("a-animation");
+          let animationEl = document.createElement("a-animation");
           let xIndexStr = (xIndex * 5).toString();
           let yIndexStr = (yIndex * 5 + 5).toString();
           animationEl.setAttribute("to", `${xIndexStr} ${yIndexStr} -12`);
@@ -60,7 +77,7 @@
           animationEl.setAttribute("repeat", "indefinite");
           entityEl.appendChild(animationEl);
 
-          // add to scene
+          // add generated entity to scene
           sceneEl.appendChild(entityEl);
       }
     }
