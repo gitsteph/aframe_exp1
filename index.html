@@ -41,10 +41,8 @@
 
           // set geometry and transforms
           entityEl.setAttribute("geometry", {
-            primitive: "box",
-            height: 2,
-            width: 2,
-            depth: 2
+            primitive: "dodecahedron",
+            radius: 2
           });
           entityEl.setAttribute("position", {
             x: xIndex * 5, y: yIndex * 5, z: -12
@@ -73,6 +71,7 @@
           let yIndexStr = (yIndex * 5 + 5).toString();
           animationEl.setAttribute("to", `${xIndexStr} ${yIndexStr} -12`);
           animationEl.setAttribute("attribute", "position");
+          animationEl.setAttribute("begin", "mouseenter");
           animationEl.setAttribute("direction", "alternate");
           animationEl.setAttribute("repeat", "indefinite");
           entityEl.appendChild(animationEl);
